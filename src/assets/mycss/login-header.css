@@ -1,0 +1,21 @@
+.login-header {
+  margin-bottom: 20px;
+}
+
+.login-header .logo {
+  width: 240px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.login-header h2 {
+  margin: 5px 0;
+  font-size: 30px;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.login-header p {
+  font-size: 16px;
+  color: #666;
+}

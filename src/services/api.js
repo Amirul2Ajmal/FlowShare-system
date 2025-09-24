@@ -96,9 +96,7 @@ export async function fetchTaskById(taskID) {
   }
 }
 
-// =========================
-// 🔹 Placeholder for future (Update, etc.)
-// =========================
+// Update task)
 export async function updateTask(worktaskId, workStatus) {
   try {
     const res = await api.post("/worktask/updateStatus", {

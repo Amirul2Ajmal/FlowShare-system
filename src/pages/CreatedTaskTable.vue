@@ -20,7 +20,7 @@
             {{ task.workStatus }}
           </span>
         </md-table-cell>
-        <md-table-cell>{{ formatDate(task.createAt) }}</md-table-cell>
+        <md-table-cell>{{ formatDate(task.createAt) }}</md-table-cell> 
         <md-table-cell>
           <!-- Delete -->
           <md-button

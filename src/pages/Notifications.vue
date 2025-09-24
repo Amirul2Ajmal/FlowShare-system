@@ -163,8 +163,14 @@ export default {
             <!-- ✅ Category Radios -->
             <div class="category-radios">
               <div v-for="cat in categories" :key="cat" class="radio-option">
-                <input type="radio" :id="cat" name="category" :value="cat" v-model="selectedCategory"
-                  class="radio-input" />
+                <input
+                  type="radio"
+                  :id="cat"
+                  name="category"
+                  :value="cat"
+                  v-model="selectedCategory"
+                  class="radio-input"
+                />
                 <label :for="cat" class="radio-label">
                   {{ cat }} ({{ taskCount(cat) }})
                 </label>
@@ -173,8 +179,12 @@ export default {
 
             <!-- Task List -->
             <div v-if="filteredTasks.length">
-              <div v-for="task in filteredTasks" :key="task.worktaskId" class="alert"
-                :class="'alert-' + task.taskType.toLowerCase().replace(' ', '')">
+              <div
+                v-for="task in filteredTasks"
+                :key="task.worktaskId"
+                class="alert"
+                :class="'alert-' + task.taskType.toLowerCase().replace(' ', '')"
+              >
                 <span>
                   <b>{{ task.taskType }} - </b>{{ task.description }}
                   <br />
@@ -185,20 +195,33 @@ export default {
 
                 <div class="task-actions">
                   <!-- ✅ Complete Task -->
-                  <md-button class="md-raised md-success" style="margin-right: 8px; border-radius: 20px"
-                    @click="completeTask(task.worktaskId)">
+                  <md-button
+                    class="md-raised md-success"
+                    style="margin-right: 8px; border-radius: 20px"
+                    @click="completeTask(task.worktaskId)"
+                  >
                     Complete
                   </md-button>
 
                   <!-- 🗑️ Delete Task -->
-                  <md-button class="md-raised delete-btn" style="margin-right: 8px; border-radius: 20px"
-                    @click="deleteTaskHandler(task.worktaskId)">
+                  <md-button
+                    class="md-raised delete-btn"
+                    style="margin-right: 8px; border-radius: 20px"
+                    @click="deleteTaskHandler(task.worktaskId)"
+                  >
                     Delete
                   </md-button>
 
                   <!-- 📂 View/Download -->
-                  <md-button class="md-raised" style="background-color: #9e9e9e; color: white; border-radius: 20px"
-                    @click="viewFile(task)">
+                  <md-button
+                    class="md-raised"
+                    style="
+                      background-color: #9e9e9e;
+                      color: white;
+                      border-radius: 20px;
+                    "
+                    @click="viewFile(task)"
+                  >
                     Download
                   </md-button>
                 </div>
@@ -216,7 +239,11 @@ export default {
     </div>
     <!-- Image Preview Modal -->
     <div v-if="previewFile" class="modal">
-      <img :src="previewFile" alt="Preview" style="max-width: 100%; max-height: 500px" />
+      <img
+        :src="previewFile"
+        alt="Preview"
+        style="max-width: 100%; max-height: 500px"
+      />
       <button class="btn btn-secondary" @click="closePreview">Close</button>
     </div>
   </div>

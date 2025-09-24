@@ -9,6 +9,8 @@ export default {
       password: "",
       showPassword: false,
       loading: false,
+      dialogMessage: "",
+      showDialog: false, // ✅ added missing reactive property
     };
   },
   methods: {
@@ -18,20 +20,28 @@ export default {
         const res = await login(this.username, this.password);
 
         if (res.status === 200) {
-          alert("✅ Login successful!");
+          this.dialogMessage = "✅ Login successful!";
+          this.showDialog = true;
+
+          //setTimeout(() => {
           this.$router.push("/dashboard");
-          console.log("succesfully login");
+          //}, 1800);
         } else {
-          alert("❌ " + (res.message || "Invalid credentials"));
+          this.dialogMessage = "❌ " + (res.message || "Invalid credentials");
+          this.showDialog = true;
         }
       } catch (err) {
-        alert("❌ Login failed: " + err.message);
+        this.dialogMessage = "❌ Login failed: " + err.message;
+        this.showDialog = true;
       } finally {
         this.loading = false;
       }
     },
-
+    closeDialog() {
+      this.showDialog = false;
+    },
     togglePassword() {
+      // ✅ moved inside methods
       this.showPassword = !this.showPassword;
     },
   },
@@ -79,21 +89,71 @@ export default {
         </button>
       </form>
     </div>
+    <!-- Dialog Box -->
+    <div
+      v-if="showDialog"
+      :style="{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
+      }"
+    >
+      <div
+        :style="{
+          background: '#fff',
+          padding: '20px 30px',
+          borderRadius: '15px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          textAlign: 'center',
+          maxWidth: '350px',
+          width: '100%',
+        }"
+      >
+        <p :style="{ marginBottom: '15px', fontSize: '16px', color: '#333' }">
+          {{ dialogMessage }}
+        </p>
+        <button
+          @click="closeDialog"
+          :style="{
+            background: '#4CAF50',
+            color: '#fff',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontSize: '14px',
+          }"
+        >
+          OK
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .login-header {
-  background: #123f67; /* Apply your color */
+  background: #123f67;
+  /* Apply your color */
   padding: 20px;
-  border-radius: 12px 12px 0 0; /* Rounded only at the top */
-  color: white; /* Make text readable */
+  border-radius: 12px 12px 0 0;
+  /* Rounded only at the top */
+  color: white;
+  /* Make text readable */
 }
 
 .login-header h2,
 .login-header p {
   margin: 10px 0;
-  color: white; /* Ensure text is visible */
+  color: white;
+  /* Ensure text is visible */
 }
 
 .login-header .logo {
@@ -128,13 +188,15 @@ export default {
 }
 
 .login-card {
-  background: #123f67; /* Changed background color */
+  background: #123f67;
+  /* Changed background color */
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 450px;
   text-align: center;
-  color: white; /* optional: makes text readable */
+  color: white;
+  /* optional: makes text readable */
 }
 
 .form-group {
@@ -174,6 +236,3 @@ button:hover:enabled {
   font-size: 20px;
 }
 </style>
-
-<!-- Optional external header CSS -->
-<style src="@/assets/mycss/login-header.css"></style>

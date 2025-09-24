@@ -83,6 +83,24 @@ export default {
 </template>
 
 <style scoped>
+.login-header {
+  background: #123f67; /* Apply your color */
+  padding: 20px;
+  border-radius: 12px 12px 0 0; /* Rounded only at the top */
+  color: white; /* Make text readable */
+}
+
+.login-header h2,
+.login-header p {
+  margin: 10px 0;
+  color: white; /* Ensure text is visible */
+}
+
+.login-header .logo {
+  width: 400px;
+  margin-bottom: 10px;
+}
+
 .password-wrapper {
   position: relative;
   display: flex;
@@ -110,12 +128,13 @@ export default {
 }
 
 .login-card {
-  background: white;
+  background: #123f67; /* Changed background color */
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 450px;
   text-align: center;
+  color: white; /* optional: makes text readable */
 }
 
 .form-group {

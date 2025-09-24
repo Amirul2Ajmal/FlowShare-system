@@ -1,21 +1,14 @@
 <template>
-  <div
-    class="sidebar"
-    :data-color="sidebarItemColor"
-    :data-image="sidebarBackgroundImage"
-    :style="sidebarStyle"
-  >
+  <div class="sidebar" :data-color="sidebarItemColor" :data-image="sidebarBackgroundImage" :style="sidebarStyle">
     <div class="logo">
       <a href="#" class="simple-text logo-mini">
-        <div class="logo-img">
-          <img :src="imgLogo" alt="" />
+        <div class="logo-img" style="width:100; height:100;">
+          <img :src="imgLogo" alt="App Logo" style="width:100px; height:45px; object-fit:cover;" />
         </div>
       </a>
 
-      <a
-        href="http://localhost:8080/#/dashboard"
-        class="simple-text logo-normal"
-      >
+
+      <a href="http://localhost:8080/#/dashboard" class="simple-text logo-normal">
         {{ title }}
       </a>
     </div>
@@ -24,12 +17,7 @@
       <md-list class="nav">
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
         <slot>
-          <sidebar-link
-            v-for="(link, index) in sidebarLinks"
-            :key="link.name + index"
-            :to="link.path"
-            :link="link"
-          >
+          <sidebar-link v-for="(link, index) in sidebarLinks" :key="link.name + index" :to="link.path" :link="link">
           </sidebar-link>
         </slot>
       </md-list>
@@ -54,7 +42,7 @@ export default {
     },
     imgLogo: {
       type: String,
-      default: require("@/assets/img/vue-logo.png"),
+      default: require("@/assets/mycss/img/MirulCloude.png"),
     },
     sidebarItemColor: {
       type: String,
@@ -92,5 +80,16 @@ export default {
   .nav-mobile-menu {
     display: none;
   }
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

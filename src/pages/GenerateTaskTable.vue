@@ -172,7 +172,7 @@ export default {
         <md-button class="md-primary md-raised" @click="submit"
           >Add Task</md-button
         >
-        <md-button class="md-accent" @click="reset">Clear</md-button>
+        <md-button class="md-accent" @click="reset">Reset</md-button>
       </md-card-actions>
     </md-card>
 

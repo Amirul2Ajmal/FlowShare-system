@@ -1,11 +1,6 @@
 <template>
   <header class="top-navbar">
-    <div class="logo">🚀 My App</div>
-    <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Tasks</a>
-      <a href="#">Profile</a>
-    </nav>
+    <div class="logo">🚀 Amirul Ajmal</div>
   </header>
 </template>
 

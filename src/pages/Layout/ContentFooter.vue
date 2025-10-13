@@ -18,8 +18,8 @@
         </ul>
       </nav> -->
       <div class="copyright text-center">
-        &copy; {{ new Date().getFullYear() }}
-        Amirul Ajmal Ahmad, made with <i class="fa fa-heart heart"></i> for a smoother flow
+        &copy; {{ new Date().getFullYear() }} Amirul Ajmal Ahmad, made with
+        <i class="fa fa-heart heart"></i> for a smoother flow
       </div>
     </div>
   </footer>

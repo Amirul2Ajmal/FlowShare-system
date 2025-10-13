@@ -1,3 +1,69 @@
+<script>
+import axios from "axios";
+
+export default {
+  name: "edit-profile-form",
+  props: {
+    dataBackgroundColor: {
+      type: String,
+      default: "",
+    },
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      disabled: "My Company", // static example
+      form: {
+        userName: "",
+        emailAdd: "",
+        fullName: "",
+        address: "",
+        city: "",
+        country: "",
+        postalCode: "",
+        aboutMe: "",
+      },
+    };
+  },
+  mounted() {
+    // ✅ Pre-fill form with user prop data
+    if (this.user) {
+      this.form.userName = this.user.userName || "";
+      this.form.emailAdd = this.user.emailAdd || "";
+      this.form.fullName = this.user.fullName || "";
+    }
+  },
+  /*
+  methods: {
+    async updateProfile() {
+      try {
+        const res = await axios.put(
+          `http://localhost/backend-systemPHP/public/index.php/api/v1/user/update/${this.user.userId}`,
+          this.form,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        alert("✅ Profile updated successfully!");
+        console.log("Updated User:", res.data);
+
+        // update localStorage with new info
+        localStorage.setItem("user", JSON.stringify(res.data.data));
+      } catch (err) {
+        alert(
+          "❌ Failed to update profile: " +
+            (err.response?.data?.message || err.message)
+        );
+      }
+    },
+  },*/
+};
+</script>
+
 <template>
   <form @submit.prevent="updateProfile">
     <md-card>
@@ -74,68 +140,26 @@
   </form>
 </template>
 
-<script>
-import axios from "axios";
+<style scoped>
+.title {
+  font-size: 22px;
+  font-weight: 700;
+}
 
-export default {
-  name: "edit-profile-form",
-  props: {
-    dataBackgroundColor: {
-      type: String,
-      default: "",
-    },
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      disabled: "My Company", // static example
-      form: {
-        userName: "",
-        emailAdd: "",
-        fullName: "",
-        address: "",
-        city: "",
-        country: "",
-        postalCode: "",
-        aboutMe: "",
-      },
-    };
-  },
-  mounted() {
-    // ✅ Pre-fill form with user prop data
-    if (this.user) {
-      this.form.userName = this.user.userName || "";
-      this.form.emailAdd = this.user.emailAdd || "";
-      this.form.fullName = this.user.fullName || "";
-    }
-  },
-  /*
-  methods: {
-    async updateProfile() {
-      try {
-        const res = await axios.put(
-          `http://localhost/backend-systemPHP/public/index.php/api/v1/user/update/${this.user.userId}`,
-          this.form,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+.category {
+  font-size: 16px;
+  color: #666;
+}
 
-        alert("✅ Profile updated successfully!");
-        console.log("Updated User:", res.data);
+label {
+  font-size: 16px !important;
+  font-weight: 500;
+  color: #333;
+}
 
-        // update localStorage with new info
-        localStorage.setItem("user", JSON.stringify(res.data.data));
-      } catch (err) {
-        alert(
-          "❌ Failed to update profile: " +
-            (err.response?.data?.message || err.message)
-        );
-      }
-    },
-  },*/
-};
-</script>
+.md-input,
+.md-textarea {
+  font-size: 16px !important;
+  color: #111;
+}
+</style>

@@ -1,26 +1,12 @@
 <template>
   <div class="content">
-    <!-- Top Bar Logout -->
-    <div class="md-layout md-gutter" style="margin-bottom: 20px">
-      <div class="md-layout-item md-size-100">
-        <md-button class="md-raised md-accent" @click="logout">
-          Logout
-        </md-button>
-      </div>
-    </div>
-
+  
     <!-- Dashboard Content -->
     <div class="md-layout md-gutter center-cards">
-      <!-- Row 1: Chart Cards -->
-      <div
-        class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100"
-      >
-        <chart-card
-          :chart-data="dailySalesChart.data"
-          :chart-options="dailySalesChart.options"
-          :chart-type="'Line'"
-          data-background-color="blue"
-        >
+      <!-- Chart Cards -->
+      <div class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100">
+        <chart-card :chart-data="dailySalesChart.data" :chart-options="dailySalesChart.options" :chart-type="'Line'"
+          data-background-color="blue">
           <template #content>
             <h4 class="title">Upcoming Project</h4>
             <p class="category">
@@ -39,15 +25,9 @@
         </chart-card>
       </div>
 
-      <div
-        class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100"
-      >
-        <chart-card
-          :chart-data="dataCompletedTasksChart.data"
-          :chart-options="dataCompletedTasksChart.options"
-          :chart-type="'Line'"
-          data-background-color="green"
-        >
+      <div class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100">
+        <chart-card :chart-data="dataCompletedTasksChart.data" :chart-options="dataCompletedTasksChart.options"
+          :chart-type="'Line'" data-background-color="green">
           <template #content>
             <h4 class="title">Completed Tasks</h4>
             <p class="category">Last Campaign Performance</p>
@@ -61,10 +41,8 @@
         </chart-card>
       </div>
 
-      <!-- Row 2: Stats Cards -->
-      <div
-        class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100"
-      >
+      <!-- Stats Cards -->
+      <div class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100">
         <stats-card data-background-color="orange">
           <template #header>
             <md-icon>content_copy</md-icon>
@@ -82,9 +60,7 @@
         </stats-card>
       </div>
 
-      <div
-        class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100"
-      >
+      <div class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100">
         <stats-card data-background-color="red">
           <template #header>
             <md-icon>info_outline</md-icon>
@@ -102,9 +78,7 @@
         </stats-card>
       </div>
 
-      <div
-        class="md-layout-item md-size-33 md-medium-size-100 md-xsmall-size-100"
-      >
+      <div class="md-layout-item md-size-33 md-medium-size-100 md-xsmall-size-100">
         <stats-card data-background-color="blue">
           <template #header>
             <i class="fab fa-twitter"></i>
@@ -122,7 +96,7 @@
         </stats-card>
       </div>
 
-      <!-- Row 3: Ordered Table -->
+      <!-- Ordered Table -->
       <div class="md-layout-item md-size-100">
         <md-card>
           <md-card-header data-background-color="orange">
@@ -149,6 +123,7 @@ export default {
   },
   data() {
     return {
+      showLogoutDialog: false,
       dailySalesChart: {
         data: {
           labels: ["M", "T", "W", "T", "F", "S", "S"],
@@ -173,50 +148,13 @@ export default {
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
         },
       },
-      emailsSubscriptionChart: {
-        data: {
-          labels: [
-            "Ja",
-            "Fe",
-            "Ma",
-            "Ap",
-            "Mai",
-            "Ju",
-            "Jul",
-            "Au",
-            "Se",
-            "Oc",
-            "No",
-            "De",
-          ],
-          series: [
-            [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-          ],
-        },
-        options: {
-          axisX: { showGrid: false },
-          low: 0,
-          high: 1000,
-          chartPadding: { top: 0, right: 5, bottom: 0, left: 0 },
-        },
-        responsiveOptions: [
-          [
-            "screen and (max-width: 640px)",
-            {
-              seriesBarDistance: 5,
-              axisX: {
-                labelInterpolationFnc: (value) => value[0],
-              },
-            },
-          ],
-        ],
-      },
     };
   },
   methods: {
-    logout() {
+    confirmLogout() {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("user");
+      this.showLogoutDialog = false;
       this.$router.push("/login");
     },
   },

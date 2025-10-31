@@ -1,19 +1,3 @@
-<template>
-  <li class="md-list-item">
-    <router-link
-      class="md-list-item-router md-list-item-container md-button-clean"
-      @click="hideSidebar"
-      v-bind="$attrs"
-    >
-      <div class="md-list-item-content md-ripple">
-        <slot>
-          <md-icon>{{ link.icon }}</md-icon>
-          <p>{{ link.name }}</p>
-        </slot>
-      </div>
-    </router-link>
-  </li>
-</template>
 <script>
 export default {
   inject: {
@@ -50,4 +34,22 @@ export default {
   },
 };
 </script>
+
+<template>
+  <li class="md-list-item">
+    <router-link
+      class="md-list-item-router md-list-item-container md-button-clean"
+      @click="hideSidebar"
+      v-bind="$attrs"
+    >
+      <div class="md-list-item-content md-ripple">
+        <slot>
+          <md-icon>{{ link.icon }}</md-icon>
+          <p>{{ link.name }}</p>
+        </slot>
+      </div>
+    </router-link>
+  </li>
+</template>
+
 <style></style>

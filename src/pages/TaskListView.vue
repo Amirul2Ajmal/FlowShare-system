@@ -1,31 +1,22 @@
 <script>
-import {
-  fetchUsers,
-  fetchTasksByUser,
-  deleteTask,
-  fetchTaskById,
-} from "@/services/api";
-import SimpleTable from "@/pages/GenerateTaskTable.vue";
+import { fetchTasksByUser, deleteTask, fetchTaskById } from "@/services/api";
+import CreatedTaskTable from "@/components/Tables/CreatedTaskTable.vue";
 import TaskDetailModal from "@/components/Modals/TaskDetailModal.vue";
 import FilePreviewModal from "@/components/Modals/FilePreviewModal.vue";
 
 export default {
-  name: "TaskDashboard",
+  name: "TaskListView",
   components: {
-    SimpleTable,
+    CreatedTaskTable,
     TaskDetailModal,
     FilePreviewModal,
   },
   data() {
     return {
-      users: [],
-      taskTypes: ["Meeting", "Follow-up", "Personal", "Reminder"],
       tasks: [],
       currentUser: {},
-      previewFile: null, // full file URL for preview
-      previewType: null, // "image" | "pdf" | "doc" | "other"
-
-      // 🔹 New for popup
+      previewFile: null,
+      previewType: null,
       selectedTask: null,
       showTaskModal: false,
     };
@@ -33,13 +24,7 @@ export default {
   async created() {
     const savedUser = localStorage.getItem("user");
     if (savedUser) this.currentUser = JSON.parse(savedUser);
-
-    try {
-      this.users = await fetchUsers();
-      await this.loadTasks();
-    } catch (err) {
-      console.error("❌ Error fetching data:", err.message);
-    }
+    await this.loadTasks();
   },
   methods: {
     async loadTasks() {
@@ -51,9 +36,6 @@ export default {
         console.error("❌ Error fetching tasks:", err.message);
       }
     },
-    async handleTaskAdded() {
-      await this.loadTasks();
-    },
     async deleteTaskHandler(taskID) {
       try {
         await deleteTask(taskID);
@@ -64,8 +46,6 @@ export default {
         alert("Failed to delete task");
       }
     },
-
-    /** Updated viewTask to open modal instead of alert */
     async viewTask(task) {
       try {
         const latestTask = await fetchTaskById(task.worktaskId);
@@ -80,15 +60,8 @@ export default {
         alert("Failed to fetch task details.");
       }
     },
-
-    /** Handle file preview from modal */
     handleViewFile() {
       if (!this.selectedTask) return;
-
-      console.log(this.selectedTask);
-
-      console.log("📂 Raw filePath from DB:", this.selectedTask.filePath);
-      console.log("🌐 Constructed fileURL:", fileURL);
 
       let fileURL = this.selectedTask.filePath
         ? `http://localhost/backend-systemPHP/${this.selectedTask.filePath}`
@@ -116,12 +89,10 @@ export default {
         window.open(fileURL, "_blank");
       }
     },
-
     closeTaskModal() {
       this.showTaskModal = false;
       this.selectedTask = null;
     },
-
     closePreview() {
       this.previewFile = null;
       this.previewType = null;
@@ -133,21 +104,21 @@ export default {
 <template>
   <div class="content">
     <div class="md-layout">
-      <!-- Generate Task -->
       <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
       >
-        <md-card>
+        <md-card class="md-card-plain">
           <md-card-header data-background-color="green">
-            <h4 class="title">Generate Task</h4>
-            <p class="category">Create a new task or alert</p>
+            <div>
+              <h4 class="title">Task List</h4>
+              <p class="category">All tasks in the system</p>
+            </div>
           </md-card-header>
           <md-card-content>
-            <simple-table
-              :users="users"
-              :task-types="taskTypes"
-              :current-user="currentUser"
-              @task-added="handleTaskAdded"
+            <created-task-table
+              :tasks="tasks"
+              @delete-task="deleteTaskHandler"
+              @view-task="viewTask"
             />
           </md-card-content>
         </md-card>

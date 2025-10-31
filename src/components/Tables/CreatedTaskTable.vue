@@ -84,7 +84,7 @@ export default {
   <div class="table-wrapper">
     <md-table v-if="tasks.length" class="task-table md-elevation-2">
       <md-table-row>
-        <md-table-head>Task Type</md-table-head>
+        <md-table-head>Task Types</md-table-head>
         <md-table-head>Assigned To</md-table-head>
         <md-table-head>Description</md-table-head>
         <md-table-head>Status</md-table-head>
@@ -140,7 +140,7 @@ export default {
       </md-table-row>
     </md-table>
 
-    <p v-else class="empty-msg">No tasks available.</p>
+    <p v-else class="empty-msg">No tasks availablesss.</p>
 
     <!-- Dialog Box -->
     <transition name="fade">
@@ -200,7 +200,6 @@ export default {
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-
 
 .task-row:hover {
   background-color: #f5f5f5;

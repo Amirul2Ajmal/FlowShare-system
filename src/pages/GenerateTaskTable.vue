@@ -72,6 +72,7 @@ export default {
           res.message || "✅ Task created successfully!",
           "success"
         );
+        this.$emit("task-added", res.data);
         this.reset();
       } catch (err) {
         const msg = err.response?.data?.message || "❌ Failed to create task.";
@@ -105,11 +106,11 @@ export default {
 
 <template>
   <div class="task-form-card">
-    <md-card>
-      <md-card-header>
-        <div class="md-title">➕ Add New Task</div>
-        <div class="md-subhead">Assign a task (to yourself or a colleague)</div>
-      </md-card-header>
+    <md-card >
+        <md-card-header>
+          <md-icon>add</md-icon> Add New Task
+          <div class="md-subhead">Assign a task (to yourself or a colleague)</div>
+        </md-card-header>
 
       <md-card-content>
         <div class="form-grid">
@@ -118,11 +119,7 @@ export default {
             <label>Assign To</label>
             <md-select v-model="form.assignTo" placeholder="Select user">
               <md-option disabled value="">-- Select user --</md-option>
-              <md-option
-                v-for="u in users"
-                :key="u.userId"
-                :value="String(u.userId)"
-              >
+              <md-option v-for="u in users" :key="u.userId" :value="String(u.userId)">
                 {{ u.userName }}
               </md-option>
             </md-select>
@@ -142,12 +139,7 @@ export default {
           <!-- File or Link -->
           <div class="upload-section">
             <label class="section-label">Attach File / Link</label>
-            <input
-              type="file"
-              ref="file"
-              class="file-input"
-              @change="onFileChange"
-            />
+            <input type="file" ref="file" class="file-input" @change="onFileChange" />
             <md-field>
               <label>Or paste link</label>
               <md-input v-model="form.link" placeholder="https://..." />
@@ -160,76 +152,76 @@ export default {
           <!-- Description -->
           <md-field class="description-field">
             <label>Description</label>
-            <md-textarea
-              v-model="form.description"
-              placeholder="Task details..."
-            />
+            <md-textarea v-model="form.description" placeholder="Task details..." />
           </md-field>
         </div>
       </md-card-content>
 
       <md-card-actions>
-        <md-button class="md-primary md-raised" @click="submit"
-          >Add Task</md-button
-        >
+        <md-button class="md-primary md-raised" @click="submit">Add Task</md-button>
         <md-button class="md-accent" @click="reset">Reset</md-button>
       </md-card-actions>
     </md-card>
 
-    <!-- ✅ Dialog -->
-    <div
-      v-if="dialogVisible"
-      :style="{
-        position: 'fixed',
-        top: 0,
-        left: 0,
+    <!-- Dialog -->
+    <div v-if="dialogVisible" :style="{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'rgba(0,0,0,0.5)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 9999,
+    }">
+      <div :style="{
+        background: '#fff',
+        padding: '20px 30px',
+        borderRadius: '15px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        textAlign: 'center',
+        maxWidth: '350px',
         width: '100%',
-        height: '100%',
-        background: 'rgba(0,0,0,0.5)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 9999,
-      }"
-    >
-      <div
-        :style="{
-          background: '#fff',
-          padding: '20px 30px',
-          borderRadius: '15px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          textAlign: 'center',
-          maxWidth: '350px',
-          width: '100%',
-        }"
-      >
-        <!-- ✅ Color based on dialogType -->
-        <p
-          :style="{
-            marginBottom: '15px',
-            fontSize: '16px',
-            fontWeight: '500',
-            color: dialogType === 'success' ? '#2E7D32' : '#C62828',
-          }"
-        >
+      }">
+        <!-- Color based on dialogType -->
+        <p :style="{
+          marginBottom: '15px',
+          fontSize: '16px',
+          fontWeight: '500',
+          color: dialogType === 'success' ? '#2E7D32' : '#C62828',
+        }">
           {{ dialogMessage }}
         </p>
 
-        <button
-          @click="closeDialog"
-          :style="{
-            background: dialogType === 'success' ? '#4CAF50' : '#F44336',
-            color: '#fff',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '14px',
-          }"
-        >
+        <button @click="closeDialog" :style="{
+          background: dialogType === 'success' ? '#4CAF50' : '#F44336',
+          color: '#fff',
+          border: 'none',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '14px',
+        }">
           OK
         </button>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.custom-card {
+  border-radius: 20px;
+  /* Adjust radius as needed */
+  overflow: hidden;
+  /* Ensures corners are clipped */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.md-title md-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+</style>

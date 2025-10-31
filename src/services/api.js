@@ -1,11 +1,12 @@
 // src/services/api.js
 import axios from "axios";
 
-const API_BASE = "http://localhost/backend-systemPHP/public/index.php/api/v1";
+const API_BASE =
+  "http://192.168.0.28/backend-systemPHP/public/index.php/api/v1";
 
 // 🔹 Central axios instance
 const api = axios.create({
-  baseURL: "http://localhost/backend-systemPHP/public/index.php/api/v1",
+  baseURL: "http://192.168.0.28/backend-systemPHP/public/index.php/api/v1",
   headers: {
     "Content-Type": "application/json",
   },

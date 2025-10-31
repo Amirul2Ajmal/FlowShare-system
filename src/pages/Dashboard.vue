@@ -1,17 +1,46 @@
 <template>
   <div class="content">
     <!-- Dashboard Content -->
-    <div class="md-layout md-gutter center-cards">
+    <div class="md-layout md-gutter md-alignment-center-center">
+      <!-- Stats Cards -->
+      <div class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100">
+        <stats-card data-background-color="orange">
+          <template #header>
+            <md-icon>assignment</md-icon>
+          </template>
+          <template #content>
+            <p class="category">Total Created Tasks</p>
+            <h3 class="title">{{ totalTasks }}</h3>
+          </template>
+          <template #footer>
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>
+      <div class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100">
+        <stats-card data-background-color="blue">
+          <template #header>
+            <md-icon>notifications</md-icon>
+          </template>
+          <template #content>
+            <p class="category">Notifications</p>
+            <h3 class="title">{{ totalNotifications }}</h3>
+          </template>
+          <template #footer>
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>
       <!-- Chart Cards -->
-      <div
-        class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100"
-      >
-        <chart-card
-          :chart-data="dailySalesChart.data"
-          :chart-options="dailySalesChart.options"
-          :chart-type="'Line'"
-          data-background-color="blue"
-        >
+      <div class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100">
+        <chart-card :chart-data="dailySalesChart.data" :chart-options="dailySalesChart.options" :chart-type="'Line'"
+          data-background-color="blue">
           <template #content>
             <h4 class="title">Upcoming Project</h4>
             <p class="category">
@@ -30,15 +59,9 @@
         </chart-card>
       </div>
 
-      <div
-        class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100"
-      >
-        <chart-card
-          :chart-data="dataCompletedTasksChart.data"
-          :chart-options="dataCompletedTasksChart.options"
-          :chart-type="'Line'"
-          data-background-color="green"
-        >
+      <div class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100">
+        <chart-card :chart-data="dataCompletedTasksChart.data" :chart-options="dataCompletedTasksChart.options"
+          :chart-type="'Line'" data-background-color="green">
           <template #content>
             <h4 class="title">Completed Tasks</h4>
             <p class="category">Last Campaign Performance</p>
@@ -52,66 +75,7 @@
         </chart-card>
       </div>
 
-      <!-- Stats Cards -->
-      <div
-        class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100"
-      >
-        <stats-card data-background-color="orange">
-          <template #header>
-            <md-icon>content_copy</md-icon>
-          </template>
-          <template #content>
-            <p class="category">Project dokument</p>
-            <h3 class="title">49/50 <small>GB</small></h3>
-          </template>
-          <template #footer>
-            <div class="stats">
-              <md-icon class="text-danger">warning</md-icon>
-              <a href="#pablo">Get More Space...</a>
-            </div>
-          </template>
-        </stats-card>
-      </div>
 
-      <div
-        class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100"
-      >
-        <stats-card data-background-color="red">
-          <template #header>
-            <md-icon>info_outline</md-icon>
-          </template>
-          <template #content>
-            <p class="category">Project Complete</p>
-            <h3 class="title">75</h3>
-          </template>
-          <template #footer>
-            <div class="stats">
-              <md-icon>local_offer</md-icon>
-              Tracked from Github
-            </div>
-          </template>
-        </stats-card>
-      </div>
-
-      <div
-        class="md-layout-item md-size-33 md-medium-size-100 md-xsmall-size-100"
-      >
-        <stats-card data-background-color="blue">
-          <template #header>
-            <i class="fab fa-twitter"></i>
-          </template>
-          <template #content>
-            <p class="category">Project live</p>
-            <h3 class="title">+245</h3>
-          </template>
-          <template #footer>
-            <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
-            </div>
-          </template>
-        </stats-card>
-      </div>
 
       <!-- Ordered Table -->
       <div class="md-layout-item md-size-100">
@@ -129,10 +93,60 @@
   </div>
 </template>
 
+<style scoped>
+.md-layout.md-alignment-center-center {
+  padding: 20px;
+}
+
+.md-layout-item {
+  margin-bottom: 20px;
+}
+</style>
+
 <script>
 import { StatsCard, ChartCard, OrderedTable } from "@/components";
 
+import { fetchTasksByUser } from "@/services/api";
+
 export default {
+  data() {
+    return {
+      totalTasks: 0,
+      totalNotifications: 0,
+      currentUser: null,
+    };
+  },
+  async created() {
+    // Get current user from localStorage
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      this.currentUser = JSON.parse(savedUser);
+    }
+    await this.loadDashboardData();
+  },
+  methods: {
+    async loadDashboardData() {
+      // Load total tasks using the same API as CreatedTaskTable
+      if (this.currentUser?.userId) {
+        try {
+          const tasks = await fetchTasksByUser(this.currentUser.userId);
+          this.totalTasks = tasks.length || 0;
+        } catch (err) {
+          console.error("Error fetching tasks:", err);
+          this.totalTasks = 0;
+        }
+      }
+
+      // Load total notifications
+      try {
+        const response = await fetch('http://192.168.0.28/backend-systemPHP/public/index.php/api/v1/notifications');
+        const data = await response.json();
+        this.totalNotifications = data.data.length || 0;
+      } catch (err) {
+        console.error('Error fetching notifications:', err);
+      }
+    }
+  },
   components: {
     StatsCard,
     ChartCard,

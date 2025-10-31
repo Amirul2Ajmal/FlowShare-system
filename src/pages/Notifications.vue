@@ -1,12 +1,21 @@
 <template>
   <div class="content">
     <!-- Material Icons CDN -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
     <!-- Top Bar Logout -->
     <div class="top-bar">
-      <md-button class="md-raised md-accent btn-logout" @click="dialogActive = true">
-        <i class="material-icons" style="vertical-align: middle; margin-right: 6px">
+      <md-button
+        class="md-raised md-accent btn-logout"
+        @click="dialogActive = true"
+      >
+        <i
+          class="material-icons"
+          style="vertical-align: middle; margin-right: 6px"
+        >
           exit_to_app
         </i>
         Logout
@@ -15,9 +24,7 @@
 
     <!-- Logout Confirmation Dialog -->
     <md-dialog :md-active.sync="dialogActive" class="logout-dialog">
-      <md-dialog-title class="dialog-title">
-        Confirm Logout
-      </md-dialog-title>
+      <md-dialog-title class="dialog-title"> Confirm Logout </md-dialog-title>
 
       <md-dialog-content class="dialog-content">
         Are you sure you want to log out?
@@ -28,7 +35,10 @@
           Cancel
         </md-button>
         <md-button class="md-accent" @click="confirmLogout">
-          <i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 18px">
+          <i
+            class="material-icons"
+            style="vertical-align: middle; margin-right: 4px; font-size: 18px"
+          >
             exit_to_app
           </i>
           Logout
@@ -50,8 +60,14 @@
             <!-- Category Radios -->
             <div class="category-radios">
               <div v-for="cat in categories" :key="cat" class="radio-option">
-                <input type="radio" :id="cat" name="category" :value="cat" v-model="selectedCategory"
-                  class="radio-input" />
+                <input
+                  type="radio"
+                  :id="cat"
+                  name="category"
+                  :value="cat"
+                  v-model="selectedCategory"
+                  class="radio-input"
+                />
                 <label :for="cat" class="radio-label">
                   {{ cat }} ({{ taskCount(cat) }})
                 </label>
@@ -60,8 +76,12 @@
 
             <!-- Task List -->
             <div v-if="filteredTasks.length">
-              <div v-for="task in filteredTasks" :key="task.worktaskId" class="alert"
-                :class="'alert-' + task.taskType.toLowerCase().replace(' ', '')">
+              <div
+                v-for="task in filteredTasks"
+                :key="task.worktaskId"
+                class="alert"
+                :class="'alert-' + task.taskType.toLowerCase().replace(' ', '')"
+              >
                 <span>
                   <b>{{ task.taskType }} - </b>{{ task.description }}
                   <br />
@@ -72,18 +92,31 @@
                 </span>
 
                 <div class="task-actions">
-                  <md-button class="md-raised md-success" style="margin-right: 8px; border-radius: 20px"
-                    @click="completeTask(task.worktaskId)">
+                  <md-button
+                    class="md-raised md-success"
+                    style="margin-right: 8px; border-radius: 20px"
+                    @click="completeTask(task.worktaskId)"
+                  >
                     Complete
                   </md-button>
 
-                  <md-button class="md-raised delete-btn" style="margin-right: 8px; border-radius: 20px"
-                    @click="deleteTaskHandler(task.worktaskId)">
+                  <md-button
+                    class="md-raised delete-btn"
+                    style="margin-right: 8px; border-radius: 20px"
+                    @click="deleteTaskHandler(task.worktaskId)"
+                  >
                     Delete
                   </md-button>
 
-                  <md-button class="md-raised" style="background-color: #9e9e9e; color: white; border-radius: 20px"
-                    @click="viewFile(task)">
+                  <md-button
+                    class="md-raised"
+                    style="
+                      background-color: #9e9e9e;
+                      color: white;
+                      border-radius: 20px;
+                    "
+                    @click="viewFile(task)"
+                  >
                     View/Download
                   </md-button>
                 </div>
@@ -91,7 +124,9 @@
             </div>
 
             <div v-else>
-              <p class="text-center">No tasks available for {{ selectedCategory }}</p>
+              <p class="text-center">
+                No tasks available for {{ selectedCategory }}
+              </p>
             </div>
           </div>
         </div>
@@ -100,30 +135,49 @@
 
     <!-- Image Preview Modal -->
     <div v-if="previewFile" class="modal">
-      <img :src="previewFile" alt="Preview" style="max-width: 100%; max-height: 500px" />
+      <img
+        :src="previewFile"
+        alt="Preview"
+        style="max-width: 100%; max-height: 500px"
+      />
       <button class="btn btn-secondary" @click="closePreview">Close</button>
     </div>
 
     <!-- Dialog Box -->
     <div v-if="dialog.visible" class="dialog-overlay">
       <div class="dialog-box">
-        <i class="material-icons dialog-icon" :class="{
-          success: dialog.type === 'success',
-          error: dialog.type === 'error',
-          warning: dialog.type === 'warning',
-          info: dialog.type === 'info',
-        }">
+        <i
+          class="material-icons dialog-icon"
+          :class="{
+            success: dialog.type === 'success',
+            error: dialog.type === 'error',
+            warning: dialog.type === 'warning',
+            info: dialog.type === 'info',
+          }"
+        >
           {{ dialogIcon }}
         </i>
         <p class="dialog-message">{{ dialog.message }}</p>
         <div class="dialog-actions">
-          <button v-if="dialog.mode === 'confirm'" class="btn btn-success" @click="handleDialogConfirm(true)">
+          <button
+            v-if="dialog.mode === 'confirm'"
+            class="btn btn-success"
+            @click="handleDialogConfirm(true)"
+          >
             Yes
           </button>
-          <button v-if="dialog.mode === 'confirm'" class="btn btn-danger" @click="handleDialogConfirm(false)">
+          <button
+            v-if="dialog.mode === 'confirm'"
+            class="btn btn-danger"
+            @click="handleDialogConfirm(false)"
+          >
             No
           </button>
-          <button v-if="dialog.mode === 'alert'" class="btn btn-primary" @click="handleDialogConfirm(true)">
+          <button
+            v-if="dialog.mode === 'alert'"
+            class="btn btn-primary"
+            @click="handleDialogConfirm(true)"
+          >
             OK
           </button>
         </div>
@@ -133,7 +187,12 @@
 </template>
 
 <script>
-import { fetchAssingToUser, updateTask, deleteTask, fetchTaskById } from "@/services/api";
+import {
+  fetchAssingToUser,
+  updateTask,
+  deleteTask,
+  fetchTaskById,
+} from "@/services/api";
 
 export default {
   data() {
@@ -158,7 +217,9 @@ export default {
   computed: {
     filteredTasks() {
       return this.tasks.filter(
-        (task) => task.taskType === this.selectedCategory && task.workStatus !== "Completed"
+        (task) =>
+          task.taskType === this.selectedCategory &&
+          task.workStatus !== "Completed"
       );
     },
     dialogIcon() {
@@ -236,7 +297,11 @@ export default {
 
     // --- Delete Task ---
     async deleteTaskHandler(taskId) {
-      const confirmed = await this.showDialog("Are you sure you want to delete this task?", "warning", "confirm");
+      const confirmed = await this.showDialog(
+        "Are you sure you want to delete this task?",
+        "warning",
+        "confirm"
+      );
       if (!confirmed) return;
 
       try {
@@ -293,7 +358,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 /* --- Dialog Box --- */

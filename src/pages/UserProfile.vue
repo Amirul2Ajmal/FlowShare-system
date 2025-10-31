@@ -1,19 +1,30 @@
 <template>
   <div class="content">
-<!-- Material Icons CDN -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- Material Icons CDN -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
     <!-- Top Bar Logout -->
     <div class="top-bar">
       <md-button class="md-raised md-accent btn-logout" @click="openDialog">
-        <i class="material-icons" style="vertical-align: middle; margin-right: 7px">logout</i>
+        <i
+          class="material-icons"
+          style="vertical-align: middle; margin-right: 7px"
+          >logout</i
+        >
         Logout
       </md-button>
     </div>
 
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-size-66">
-        <edit-profile-form v-if="user" :user="user" data-background-color="green" />
+        <edit-profile-form
+          v-if="user"
+          :user="user"
+          data-background-color="green"
+        />
       </div>
       <div class="md-layout-item md-medium-size-100 md-size-33">
         <user-card v-if="user" :user="user" />
@@ -27,11 +38,17 @@
         Are you sure you want to log out?
       </md-dialog-content>
       <md-dialog-actions class="dialog-actions">
-        <md-button class="md-primary" @click="dialogActive = false">Cancel</md-button>
-        <md-button class="md-accent" @click="confirmLogout"><i class="material-icons"
-            style="vertical-align: middle; margin-right: 4px; font-size: 18px">
-            exit_to_app
-          </i>Logout</md-button>
+        <md-button class="md-primary" @click="dialogActive = false"
+          >Cancel</md-button
+        >
+        <md-button class="md-accent" @click="confirmLogout"
+          ><i
+            class="material-icons"
+            style="vertical-align: middle; margin-right: 4px; font-size: 18px"
+          >
+            exit_to_app </i
+          >Logout</md-button
+        >
       </md-dialog-actions>
     </md-dialog>
   </div>

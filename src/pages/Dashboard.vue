@@ -1,12 +1,17 @@
 <template>
   <div class="content">
-  
     <!-- Dashboard Content -->
     <div class="md-layout md-gutter center-cards">
       <!-- Chart Cards -->
-      <div class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100">
-        <chart-card :chart-data="dailySalesChart.data" :chart-options="dailySalesChart.options" :chart-type="'Line'"
-          data-background-color="blue">
+      <div
+        class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100"
+      >
+        <chart-card
+          :chart-data="dailySalesChart.data"
+          :chart-options="dailySalesChart.options"
+          :chart-type="'Line'"
+          data-background-color="blue"
+        >
           <template #content>
             <h4 class="title">Upcoming Project</h4>
             <p class="category">
@@ -25,9 +30,15 @@
         </chart-card>
       </div>
 
-      <div class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100">
-        <chart-card :chart-data="dataCompletedTasksChart.data" :chart-options="dataCompletedTasksChart.options"
-          :chart-type="'Line'" data-background-color="green">
+      <div
+        class="md-layout-item md-size-50 md-medium-size-100 md-xsmall-size-100"
+      >
+        <chart-card
+          :chart-data="dataCompletedTasksChart.data"
+          :chart-options="dataCompletedTasksChart.options"
+          :chart-type="'Line'"
+          data-background-color="green"
+        >
           <template #content>
             <h4 class="title">Completed Tasks</h4>
             <p class="category">Last Campaign Performance</p>
@@ -42,7 +53,9 @@
       </div>
 
       <!-- Stats Cards -->
-      <div class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100">
+      <div
+        class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100"
+      >
         <stats-card data-background-color="orange">
           <template #header>
             <md-icon>content_copy</md-icon>
@@ -60,7 +73,9 @@
         </stats-card>
       </div>
 
-      <div class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100">
+      <div
+        class="md-layout-item md-size-33 md-medium-size-50 md-xsmall-size-100"
+      >
         <stats-card data-background-color="red">
           <template #header>
             <md-icon>info_outline</md-icon>
@@ -78,7 +93,9 @@
         </stats-card>
       </div>
 
-      <div class="md-layout-item md-size-33 md-medium-size-100 md-xsmall-size-100">
+      <div
+        class="md-layout-item md-size-33 md-medium-size-100 md-xsmall-size-100"
+      >
         <stats-card data-background-color="blue">
           <template #header>
             <i class="fab fa-twitter"></i>

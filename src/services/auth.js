@@ -1,4 +1,3 @@
-// src/services/auth.js
 import api from "./api";
 
 const USER_KEY = "user"; // LocalStorage key

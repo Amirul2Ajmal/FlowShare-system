@@ -6,13 +6,17 @@ import {
   fetchTaskById,
 } from "@/services/api";
 import SimpleTable from "@/pages/GenerateTaskTable.vue";
-import OrderedTable from "@/pages/CreatedTaskTable.vue";
+import OrderedTable from "@/components/Tables/CreatedTaskTable.vue";
+import TaskDetailModal from "@/components/Modals/TaskDetailModal.vue";
+import FilePreviewModal from "@/components/Modals/FilePreviewModal.vue";
 
 export default {
   name: "TaskDashboard",
   components: {
     SimpleTable,
     OrderedTable,
+    TaskDetailModal,
+    FilePreviewModal,
   },
   data() {
     return {
@@ -178,62 +182,21 @@ export default {
       </div>
     </div>
 
-    <!-- 🔹 Task Detail Modal -->
-    <div v-if="showTaskModal" class="modal" @click.self="closeTaskModal">
-      <div class="modal-content">
-        <button class="close-btn" @click="closeTaskModal">✖</button>
-        <h3>Task Details</h3>
+    <!-- Task Detail Modal -->
+    <task-detail-modal
+      :show="showTaskModal"
+      :task="selectedTask"
+      @close="closeTaskModal"
+      @view-file="handleViewFile"
+    />
 
-        <p><strong>Type:</strong> {{ selectedTask.taskType }}</p>
-        <p>
-          <strong>Assigned To:</strong> {{ selectedTask.assignedToName || "-" }}
-        </p>
-        <p>
-          <strong>Description:</strong> {{ selectedTask.description || "-" }}
-        </p>
-        <p><strong>Status:</strong> {{ selectedTask.workStatus }}</p>
-        <p>
-          <strong>Created At:</strong>
-          {{ new Date(selectedTask.createAt).toLocaleString() }}
-        </p>
-
-        <div class="actions">
-          <button
-            v-if="selectedTask.filePath || selectedTask.link"
-            class="view-btn"
-            @click="handleViewFile"
-          >
-            📂 View File
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 🔹 Preview modal -->
-    <div v-if="previewFile" class="modal" @click.self="closePreview">
-      <div class="modal-content">
-        <button class="close-btn" @click="closePreview">✖</button>
-
-        <!-- Image -->
-        <img v-if="previewType === 'image'" :src="previewFile" alt="Preview" />
-
-        <!-- PDF / TXT -->
-        <iframe
-          v-else-if="previewType === 'pdf'"
-          :src="previewFile"
-          frameborder="0"
-        ></iframe>
-
-        <!-- Docs (doc, xls, etc) -->
-        <iframe
-          v-else-if="previewType === 'doc'"
-          :src="
-            'https://view.officeapps.live.com/op/embed.aspx?src=' + previewFile
-          "
-          frameborder="0"
-        ></iframe>
-      </div>
-    </div>
+    <!-- Preview Modal -->
+    <file-preview-modal
+      :show="!!previewFile"
+      :type="previewType"
+      :file-url="previewFile"
+      @close="closePreview"
+    />
   </div>
 </template>
 
@@ -242,69 +205,5 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-.modal-content {
-  position: relative;
-  background: #fff;
-  padding: 1rem;
-  max-width: 90%;
-  max-height: 90%;
-  overflow: auto;
-  border-radius: 8px;
-}
-
-.modal-content img {
-  max-width: 100%;
-  max-height: 80vh;
-}
-
-.modal-content iframe {
-  width: 80vw;
-  height: 80vh;
-}
-
-.close-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: red;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-}
-
-.actions {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.view-btn {
-  background: #4caf50;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.view-btn:hover {
-  background: #43a047;
 }
 </style>
